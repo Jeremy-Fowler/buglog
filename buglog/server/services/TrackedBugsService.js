@@ -2,7 +2,8 @@ import { dbContext } from '../db/DbContext'
 import { Forbidden } from '../utils/Errors'
 
 class TrackedBugsService {
-  async removeTrackedBug(trackedBugId, userId) {
+  // REVIEW This isn't passing tests
+  async removeTrackedBug(userId, trackedBugId) {
     const trackedBug = await dbContext.TrackedBugs.findById(trackedBugId)
     if (userId !== trackedBug.accountId.toString()) {
       throw new Forbidden("This ain't your bug, hombre")
@@ -11,8 +12,10 @@ class TrackedBugsService {
     return trackedBug
   }
 
+  // REVIEW This isn't passing tests
+
   async getTrackedBugsByUser(userId) {
-    const trackedBug = await dbContext.TrackedBugs.find({ userId }).populate('bug')
+    const trackedBug = await dbContext.TrackedBugs.find({ userId }).populate('bug').populate('tracker')
     return trackedBug
   }
 
@@ -24,7 +27,7 @@ class TrackedBugsService {
   }
 
   async getUsersTrackingBug(bugId) {
-    const users = await dbContext.TrackedBugs.find({ bugId: bugId }).populate('tracker')
+    const users = await dbContext.TrackedBugs.find({ bugId: bugId }).populate('tracker').populate('bug')
     return users
   }
 }

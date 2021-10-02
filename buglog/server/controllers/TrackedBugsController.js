@@ -15,7 +15,7 @@ export class TrackedBugsController extends BaseController {
 
   async removeTrackedBug(req, res, next) {
     try {
-      const trackedBug = await trackedBugsService.removeTrackedBug(req.params.trackedBugId, req.userinfo.id)
+      const trackedBug = await trackedBugsService.removeTrackedBug(req.userInfo.id, req.params.trackedBugId)
       res.send(trackedBug)
     } catch (error) {
       next(error)
