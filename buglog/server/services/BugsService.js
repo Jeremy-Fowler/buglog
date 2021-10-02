@@ -2,10 +2,6 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest, Forbidden } from '../utils/Errors'
 
 class BugsService {
-  async createTrackedBug(trackedBugData) {
-    await this.getBugById(trackedBugData.bugId)
-  }
-
   async closeBug(bugId, userId) {
     const bug = await this.getBugById(bugId)
     if (userId !== bug.creatorId.toString()) {
