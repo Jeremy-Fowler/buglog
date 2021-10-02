@@ -1,5 +1,5 @@
 import { dbContext } from '../db/DbContext'
-import { Forbidden } from '../utils/Errors'
+import { BadRequest, Forbidden } from '../utils/Errors'
 
 class TrackedBugsService {
   // REVIEW This isn't passing tests
@@ -15,11 +15,15 @@ class TrackedBugsService {
   // REVIEW This isn't passing tests
 
   async getTrackedBugsByUser(userId) {
-    const trackedBug = await dbContext.TrackedBugs.find({ userId }).populate('bug').populate('tracker')
+    const trackedBug = await dbContext.TrackedBugs.find({ accountId: userId }).populate('bug').populate('tracker')
     return trackedBug
   }
 
-  async createTrackedBug(trackedBugData) {
+  async createTrackedBug(userId, trackedBugData) {
+    const doubleTrack = await this.getTrackedBugsByUser(userId)
+    if (doubleTrack) {
+      throw new BadRequest("You can't follow this twice")
+    }
     const trackedBug = await dbContext.TrackedBugs.create(trackedBugData)
     await trackedBug.populate('tracker')
     await trackedBug.populate('bug')

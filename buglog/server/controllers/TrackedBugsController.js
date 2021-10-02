@@ -4,13 +4,13 @@ import BaseController from '../utils/BaseController'
 
 export class TrackedBugsController extends BaseController {
   constructor() {
-    super('api')
+    super('')
     this.router
-      .get('/bugs/:bugId/trackedbugs', this.getUsersTrackingBug)
+      .get('/api/bugs/:bugId/trackedbugs', this.getUsersTrackingBug)
       .use(Auth0Provider.getAuthorizedUserInfo)
-      .post('/trackedbugs', this.createTrackedBug)
+      .post('/api/trackedbugs', this.createTrackedBug)
       .get('/account/trackedbugs', this.getTrackedBugsByUser)
-      .delete('/trackedbugs/:trackedBugId', this.removeTrackedBug)
+      .delete('/api/trackedbugs/:trackedBugId', this.removeTrackedBug)
   }
 
   async removeTrackedBug(req, res, next) {
@@ -43,7 +43,7 @@ export class TrackedBugsController extends BaseController {
   async createTrackedBug(req, res, next) {
     try {
       req.body.accountId = req.userInfo.id
-      const trackedBug = await trackedBugsService.createTrackedBug(req.body)
+      const trackedBug = await trackedBugsService.createTrackedBug(req.userInfo.id, req.body)
       res.send(trackedBug)
     } catch (error) {
       next(error)
