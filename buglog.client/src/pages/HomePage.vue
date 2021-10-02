@@ -1,17 +1,49 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo" class="rounded-circle">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <div class="container-fluid">
+    <div class="row my-3">
+      <div class="col-6 justify-content-around d-flex">
+        <h1 class="">
+          <span>Bugs</span>
+        </h1>
+      </div>
+      <div class="col-6 justify-content-around d-flex">
+        <h1 class="">
+          <span><button class="btn border border-dark btn-warning"> <b>Report Bug</b></button></span>
+        </h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col d-flex justify-content-center">
+        <h3>
+          <ul class="border list-group p-2 border-dark" style="list-style: none;">
+            <BugList v-for="b in bugs" :key="b.id" :bug="b" />
+          </ul>
+        </h3>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { computed, onMounted } from '@vue/runtime-core'
+import Pop from '../utils/Pop'
+import { bugsService } from '../services/BugsService'
+import { AppState } from '../AppState'
+
 export default {
-  name: 'Home'
+  name: 'Home',
+  setup() {
+    onMounted(async() => {
+      try {
+        await bugsService.getBugs()
+      } catch (error) {
+        Pop.toast(error, 'error')
+      }
+    })
+    return {
+      bugs: computed(() => AppState.bugs)
+    }
+  }
 }
 </script>
 
