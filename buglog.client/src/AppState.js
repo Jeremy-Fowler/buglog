@@ -6,5 +6,6 @@ export const AppState = reactive({
   account: {},
   bugs: [],
   bug: null,
-  notes: []
+  notes: [],
+  users: []
 })

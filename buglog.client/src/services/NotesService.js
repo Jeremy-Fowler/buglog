@@ -8,5 +8,11 @@ class NotesService {
     logger.log('getNotes res', res.data)
     AppState.notes = res.data
   }
+
+  async createNote(noteData) {
+    const res = await api.post('api/notes', noteData)
+    logger.log('createNote res', res)
+    AppState.notes.push(res.data)
+  }
 }
 export const notesService = new NotesService()

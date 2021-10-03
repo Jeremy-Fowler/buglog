@@ -1,14 +1,11 @@
 <template>
-  <div class="component">
-    <img :src="note?.creator.picture" style="width: 3vh" alt="">
-    {{ note?.body }}
-  </div>
+  <img class="m-1" :src="user.tracker.picture" style="width: 6vh" alt="">
 </template>
 
 <script>
 export default {
   props: {
-    note: {
+    user: {
       type: Object,
       required: true
     }

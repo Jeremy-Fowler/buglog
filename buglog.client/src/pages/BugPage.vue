@@ -28,18 +28,33 @@
               </span>
             </div>
             <div class="col">
-              <p>{{ bug.description }}</p>
+              <p>{{ bug?.description }}</p>
+            </div>
+            <div class="col">
+              <span>
+                <User v-for="u in users" :key="u.id" :user="u" />
+              </span>
+              <span>
+                <button @click.prevent="trackBug()" title="Track This Bug" class="btn mx-3 fs-3 mdi mdi-magnify-plus btn-success"></button>
+              </span>
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col">
-            <h1>Notes</h1>
+          <div class="col d-flex">
+            <span>
+              <h1>Notes</h1>
+            </span>
+            <span>
+              <button data-bs-toggle="modal" data-bs-target="#note-form" title="Post A New Note" class="btn fs-3 btn-success mx-3 mdi mdi-pencil-plus"></button>
+            </span>
           </div>
         </div>
         <div class="row">
           <div class="col">
-            <Note v-for="n in notes" :key="n.id" :note="n" />
+            <div class="card border-dark">
+              <Note v-for="n in notes" :key="n.id" :note="n" />
+            </div>
           </div>
         </div>
       </div>
@@ -56,6 +71,15 @@
       </div>
     </div>
   </div>
+
+  <Modal id="note-form">
+    <template #modal-title>
+      <h4>New Note</h4>
+    </template>
+    <template #modal-body>
+      <NoteForm />
+    </template>
+  </Modal>
 </template>
 
 <script>
@@ -65,7 +89,9 @@ import { AppState } from '../AppState'
 import Pop from '../utils/Pop'
 import { bugsService } from '../services/BugsService'
 import { notesService } from '../services/NotesService'
+import { trackedBugsService } from '../services/TrackedBugsService'
 export default {
+  name: 'Bug',
   setup() {
     const route = useRoute()
     watchEffect(async() => {
@@ -74,14 +100,25 @@ export default {
         try {
           await bugsService.getBugById(route.params.bugId)
           await notesService.getNotes(route.params.bugId)
+          await trackedBugsService.getUsers(route.params.bugId)
         } catch (error) {
           Pop.toast(error, 'error')
         }
       }
     })
+    const account = computed(() => AppState.account)
     return {
+      account,
+      async trackBug() {
+        try {
+          await trackedBugsService.trackBug(route.params.bugId)
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      },
       bug: computed(() => AppState.bug),
-      notes: computed(() => AppState.notes)
+      notes: computed(() => AppState.notes),
+      users: computed(() => AppState.users)
     }
   }
 }
