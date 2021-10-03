@@ -8,22 +8,22 @@
       </div>
       <div class="col-6 justify-content-around d-flex">
         <h1 class="">
-          <span><button class="btn border border-dark btn-warning" data-bs-toggle="modal" data-bs-target="#post-form"> <b>Report Bug</b></button></span>
+          <span><button class="btn border border-dark btn-warning" data-bs-toggle="modal" data-bs-target="#bug-form"> <b>Report Bug</b></button></span>
         </h1>
       </div>
     </div>
     <div class="row">
       <div v-if="bugs" class="col d-flex justify-content-center">
         <h3>
-          <ul class="border list-group p-2 border-dark" style="list-style: none;">
-            <li class="list-group-item d-flex justify-content-between my-2">
+          <ul class="border list-group bg-success p-2 border-dark" style="list-style: none;">
+            <li class="list-group-item d-flex border-dark justify-content-between">
               <span>
                 <b>Title</b>
               </span>
               <span>Priority</span>
               <span>Reported By</span>
               <span>Last Updated</span>
-              <span>Sort by</span>
+              <span class="selectable" @click.prevent="sortBugs()">Sort</span>
             </li>
             <BugList v-for="b in bugs" :key="b.id" :bug="b" />
           </ul>
@@ -39,7 +39,7 @@
     </div>
   </div>
 
-  <Modal id="post-form">
+  <Modal id="bug-form">
     <template #modal-title>
       <h4>Report New Bug</h4>
     </template>
@@ -66,6 +66,13 @@ export default {
       }
     })
     return {
+      async sortBugs() {
+        try {
+          await bugsService.sortBugs()
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      },
       bugs: computed(() => AppState.bugs)
     }
   }

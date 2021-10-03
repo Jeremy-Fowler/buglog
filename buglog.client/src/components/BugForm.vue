@@ -25,10 +25,11 @@
     </div>
     <div class="form-group">
       <label for="priority">
+        Priority
         <input type="number"
                for="priority"
                class="form-control bg-light"
-               placeholder="Bug Priority"
+               placeholder="0"
                v-model="editable.priority"
                min="1"
                max="5"
@@ -38,7 +39,7 @@
     </div>
     <div class="form-group">
       <button type="submit" class="btn btn-success mt-2">
-        Create Project
+        Submit
       </button>
     </div>
   </form>
@@ -47,6 +48,7 @@
 <script>
 import { ref } from '@vue/reactivity'
 import { bugsService } from '../services/BugsService'
+import { Modal } from 'bootstrap'
 export default {
   setup() {
     const editable = ref({})
@@ -54,6 +56,8 @@ export default {
       editable,
       async createBug() {
         await bugsService.createBug(editable.value)
+        const modal = Modal.getInstance(document.getElementById('bug-form'))
+        modal.hide()
       }
     }
   }

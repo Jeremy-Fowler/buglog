@@ -1,6 +1,6 @@
 <template>
   <router-link :to="{name: 'Bug', params:{bugId: bug.id}}">
-    <li class="list-group-item selectable d-flex justify-content-between my-2">
+    <li class="list-group-item selectable border-dark d-flex justify-content-between my-2">
       <span>
         <i v-if="bug.priority === 5" class="mdi text-danger mdi-ladybug"></i>
         <i v-else class="mdi mdi-ladybug"></i>
@@ -26,11 +26,14 @@ export default {
   },
 
   setup() {
-    return {}
+    return {
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+li{
+  font-size: 30px;
+}
 </style>

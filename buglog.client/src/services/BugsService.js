@@ -16,7 +16,13 @@ class BugsService {
   }
 
   async createBug(bugdata) {
+    const res = await api.post('api/bugs', bugdata)
+    logger.log('createBug res', res.data)
+    AppState.bugs.unshift(res.data)
+  }
 
+  async sortBugs() {
+    await AppState.bugs.sort('-priority')
   }
 }
 export const bugsService = new BugsService()
