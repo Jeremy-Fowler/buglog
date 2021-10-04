@@ -23,7 +23,7 @@
               <span>Priority</span>
               <span>Reported By</span>
               <span>Last Updated</span>
-              <span class="selectable" @click.prevent="sortBugs()">Sort</span>
+              <span>Status</span>
             </li>
             <BugList v-for="b in bugs" :key="b.id" :bug="b" />
           </ul>
@@ -66,13 +66,6 @@ export default {
       }
     })
     return {
-      async sortBugs() {
-        try {
-          await bugsService.sortBugs()
-        } catch (error) {
-          Pop.toast(error, 'error')
-        }
-      },
       bugs: computed(() => AppState.bugs),
       user: computed(() => AppState.user)
     }

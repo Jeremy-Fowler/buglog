@@ -1,7 +1,7 @@
 <template>
   <div class="col">
     <div class="border-dark border d-flex mx-3 p-3">
-      <span class="">
+      <span>
         <img :src="note?.creator.picture" style="width: 3vh" alt="">
       </span>
       <span>

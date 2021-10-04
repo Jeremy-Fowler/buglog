@@ -24,5 +24,11 @@ class BugsService {
   async sortBugs() {
     await AppState.bugs.sort('-priority')
   }
+
+  async closeBug(bugId) {
+    const res = await api.delete('api/bugs/' + bugId)
+    logger.log('closeBug res', res.data.closed)
+    AppState.bug = res.data
+  }
 }
 export const bugsService = new BugsService()

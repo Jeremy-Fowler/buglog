@@ -8,8 +8,13 @@ class BugsService {
       throw new Forbidden("You can't close that bug, big guy. He's not your bug. He's someone else's bug, okay?")
     }
     // REVIEW Check Booleans on last project if this isn't working
-    bug.closed = true
-    bug.closedDate = new Date()
+    if (bug.closed === false) {
+      bug.closed = true
+      bug.closedDate = new Date()
+    } else {
+      bug.closed = false
+      bug.closedDate = null
+    }
     await bug.save()
     return bug
   }

@@ -23,8 +23,10 @@
               </span>
               <span>
                 <div>Bug Status</div>
-                <div v-if="bug?.closed === true">Open</div>
-                <div v-else>Closed</div>
+                <div v-if="bug?.closed === true">Closed</div>
+                <div v-else>Open</div>
+                <button @click.prevent="closeBug()" v-if="bug?.creatorId === account.id && bug?.closed === false" class="btn btn-success">Close Bug</button>
+                <button @click.prevent="closeBug()" v-if="bug?.creatorId === account.id && bug?.closed === true" class="btn btn-success">Open Bug</button>
               </span>
             </div>
             <div class="col">
@@ -114,6 +116,13 @@ export default {
       async trackBug() {
         try {
           await trackedBugsService.trackBug(route.params.bugId)
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      },
+      async closeBug() {
+        try {
+          await bugsService.closeBug(route.params.bugId)
         } catch (error) {
           Pop.toast(error, 'error')
         }

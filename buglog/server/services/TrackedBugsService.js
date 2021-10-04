@@ -18,11 +18,6 @@ class TrackedBugsService {
 
   async createTrackedBug(userId, trackedBugData) {
     // eslint-disable-next-line prefer-const
-    // let trackedBugs = await this.getTrackedBugsByUser(userId)
-    // if (trackedBugs.filter(t => t.accountId === userId).length > 0) {
-    //   throw new BadRequest("you can't follow this twice")
-    // }
-    // eslint-disable-next-line prefer-const
     let users = await this.getUsersTrackingBug(trackedBugData.bugId)
     if (users.filter(u => u.accountId === userId).length > 0) {
       throw new BadRequest("you can't follow this twice")

@@ -9,7 +9,7 @@
     </div>
     <div class="row">
       <div v-if="trackedBugs" class="col d-flex justify-content-center" style="">
-        <h1>
+        <!-- <h1>
           <ul class="border list-group bg-success p-2 border-dark" style="list-style: none;">
             <li class="list-group-item d-flex border-dark justify-content-between">
               <span>
@@ -21,7 +21,28 @@
             </li>
             <TrackedBugList v-for="b in trackedBugs" :key="b.id" :bug="b.bug" />
           </ul>
-        </h1>
+        </h1> -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">
+                Priority
+              </th>
+              <th scope="col">
+                Title
+              </th>
+              <th scope="col">
+                Last Updated
+              </th>
+              <th scope="col">
+                Status
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <TrackedBugList v-for="b in trackedBugs" :key="b.id" :bug="b.bug" />
+          </tbody>
+        </table>
       </div>
       <div v-else class="col d-flex justify-content-center">
         <h1>
