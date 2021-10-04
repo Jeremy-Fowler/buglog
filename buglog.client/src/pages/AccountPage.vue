@@ -16,11 +16,10 @@
                 <b>Title</b>
               </span>
               <span>Priority</span>
-              <span>Reported By</span>
               <span>Last Updated</span>
               <span class="selectable" @click.prevent="sortBugs()">Sort</span>
             </li>
-            <BugList v-for="b in trackedBugs" :key="b.accountId" :bug="b" />
+            <TrackedBugList v-for="b in trackedBugs" :key="b.id" :bug="b.bug" />
           </ul>
         </h1>
       </div>
