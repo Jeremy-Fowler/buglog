@@ -4,7 +4,7 @@
       <span>
         <i v-if="bug.priority === 5" class="mdi text-danger mdi-ladybug"></i>
         <i v-else class="mdi mdi-ladybug"></i>
-        <b>{{ bug.title }}</b>
+        <b>{{ bug?.title }}</b>
       </span>
       <span v-if="bug.priority === 5" class="mdi fs-2 text-danger mdi-numeric-5-circle"></span>
       <span v-else>{{ bug.priority }}</span>

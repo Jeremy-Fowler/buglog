@@ -42,17 +42,17 @@
         </div>
         <div class="row">
           <div class="col d-flex">
-            <span>
+            <span class="m-3">
               <h1>Notes</h1>
             </span>
-            <span>
+            <span class="m-3">
               <button data-bs-toggle="modal" data-bs-target="#note-form" title="Post A New Note" class="btn fs-3 btn-success mx-3 mdi mdi-pencil-plus"></button>
             </span>
           </div>
         </div>
         <div class="row">
           <div class="col">
-            <div class="card border-dark">
+            <div class="card border-dark p-3">
               <Note v-for="n in notes" :key="n.id" :note="n" />
             </div>
           </div>
@@ -97,6 +97,8 @@ export default {
     watchEffect(async() => {
       if (route.params.bugId) {
         AppState.bug = null
+        AppState.notes = []
+        AppState.users = []
         try {
           await bugsService.getBugById(route.params.bugId)
           await notesService.getNotes(route.params.bugId)

@@ -14,5 +14,11 @@ class TrackedBugsService {
     logger.log('trackBug res', res.data)
     AppState.users.push(res.data)
   }
+
+  async getTrackedBugs() {
+    const res = await api.get('/account/trackedbugs')
+    logger.log('getTrackedBugs res', res.data)
+    AppState.trackedBugs = res.data
+  }
 }
 export const trackedBugsService = new TrackedBugsService()

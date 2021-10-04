@@ -7,14 +7,14 @@
         </h1>
       </div>
       <div class="col-6 justify-content-around d-flex">
-        <h1 class="">
+        <h1 v-if="user.isAuthenticated" class="">
           <span><button class="btn border border-dark btn-warning" data-bs-toggle="modal" data-bs-target="#bug-form"> <b>Report Bug</b></button></span>
         </h1>
       </div>
     </div>
     <div class="row">
-      <div v-if="bugs" class="col d-flex justify-content-center">
-        <h3>
+      <div v-if="bugs" class="col d-flex justify-content-center" style="">
+        <h1>
           <ul class="border list-group bg-success p-2 border-dark" style="list-style: none;">
             <li class="list-group-item d-flex border-dark justify-content-between">
               <span>
@@ -27,7 +27,7 @@
             </li>
             <BugList v-for="b in bugs" :key="b.id" :bug="b" />
           </ul>
-        </h3>
+        </h1>
       </div>
       <div v-else class="col d-flex justify-content-center">
         <h1>
@@ -73,7 +73,8 @@ export default {
           Pop.toast(error, 'error')
         }
       },
-      bugs: computed(() => AppState.bugs)
+      bugs: computed(() => AppState.bugs),
+      user: computed(() => AppState.user)
     }
   }
 }

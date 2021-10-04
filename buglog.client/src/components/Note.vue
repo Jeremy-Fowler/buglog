@@ -1,6 +1,15 @@
 <template>
-  <div class="component">
-    <img :src="note?.creator.picture" style="width: 3vh" alt="">
+  <div class="col">
+    <div class="border-dark border d-flex mx-3 p-3">
+      <span class="">
+        <img :src="note?.creator.picture" style="width: 3vh" alt="">
+      </span>
+      <span>
+        {{ note?.creator.name }}
+      </span>
+    </div>
+  </div>
+  <div class="component border border-dark">
     {{ note?.body }}
   </div>
 </template>
