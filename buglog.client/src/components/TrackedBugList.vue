@@ -9,7 +9,7 @@
     <router-link :to="{name: 'Bug', params:{bugId: bug.id}}">
       <th>{{ bug?.title }}</th>
     </router-link>
-    <td>{{ bug?.updatedAt }}</td>
+    <td>{{ new Date(bug?.updatedAt).toLocaleDateString('en-US') }}</td>
     <td v-if="bug.closed === false">
       <i class="mdi text-danger mdi-checkbox-blank-circle-outline"></i> Open
     </td>

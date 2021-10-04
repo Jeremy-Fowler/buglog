@@ -3,7 +3,12 @@
     <div class="row">
       <div class="col">
         <h1>
-          {{ bug?.title }}
+          <span>
+            {{ bug?.title }}
+          </span>
+          <span>
+            <button v-if="bug?.creatorId === account.id && bug?.closed === false" class="btn fs-3 btn-warning mdi mdi-pencil" data-bs-toggle="modal" data-bs-target="#edit-form"></button>
+          </span>
         </h1>
         <div class="row">
           <div class="card border-dark">
@@ -19,7 +24,7 @@
               </span>
               <span>
                 <div>Last Updated</div>
-                <div>{{ bug?.updatedAt }}</div>
+                <div>{{ new Date(bug?.updatedAt).toLocaleDateString('en-US') }}</div>
               </span>
               <span>
                 <div>Bug Status</div>
@@ -48,7 +53,7 @@
               <h1>Notes</h1>
             </span>
             <span class="m-3">
-              <button data-bs-toggle="modal" data-bs-target="#note-form" title="Post A New Note" class="btn fs-3 btn-success mx-3 mdi mdi-pencil-plus"></button>
+              <button data-bs-toggle="modal" data-bs-target="#note-form" title="Post A New Note" class="btn fs-3 btn-success mx-3 mdi mdi-comment-plus"></button>
             </span>
           </div>
         </div>
@@ -80,6 +85,14 @@
     </template>
     <template #modal-body>
       <NoteForm />
+    </template>
+  </Modal>
+  <Modal id="edit-form">
+    <template #modal-title>
+      <h4>Edit Bug</h4>
+    </template>
+    <template #modal-body>
+      <EditForm :bug="bug" />
     </template>
   </Modal>
 </template>

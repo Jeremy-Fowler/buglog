@@ -14,20 +14,32 @@
     </div>
     <div class="row">
       <div v-if="bugs" class="col d-flex justify-content-center" style="">
-        <h1>
-          <ul class="border list-group bg-success p-2 border-dark" style="list-style: none;">
-            <li class="list-group-item d-flex border-dark justify-content-between">
-              <span>
-                <b>Title</b>
-              </span>
-              <span>Priority</span>
-              <span>Reported By</span>
-              <span>Last Updated</span>
-              <span>Status</span>
-            </li>
-            <BugList v-for="b in bugs" :key="b.id" :bug="b" />
-          </ul>
-        </h1>
+        <h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" class="selectable" @click="toggleAscending">
+                  Priority
+                </th>
+                <th scope="col">
+                  Title
+                </th>
+                <th scope="col">
+                  Reported By
+                </th>
+                <th scope="col">
+                  Last Updated
+                </th>
+                <th scope="col" class="selectable" @click="statusFilter = !statusFilter" title="Show only closed">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <BugList v-for="b in bugs" :key="b.id" :bug="b" />
+            </tbody>
+          </table>
+        </h2>
       </div>
       <div v-else class="col d-flex justify-content-center">
         <h1>
@@ -50,7 +62,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from '@vue/runtime-core'
+import { computed, onMounted, ref } from '@vue/runtime-core'
 import Pop from '../utils/Pop'
 import { bugsService } from '../services/BugsService'
 import { AppState } from '../AppState'
@@ -58,6 +70,9 @@ import { AppState } from '../AppState'
 export default {
   name: 'Home',
   setup() {
+    const statusFilter = ref(false)
+    const ascending = ref(true)
+
     onMounted(async() => {
       try {
         await bugsService.getBugs()
@@ -65,9 +80,28 @@ export default {
         Pop.toast(error, 'error')
       }
     })
+
+    function prioritySorter(x, y) {
+      if (ascending.value) {
+        return x.priority - y.priority
+      }
+      return y.priority - x.priority
+    }
+
+    function filterByStatus(b) {
+      if (statusFilter.value) {
+        return !b.closed
+      }
+      return true
+    }
     return {
-      bugs: computed(() => AppState.bugs),
-      user: computed(() => AppState.user)
+      statusFilter,
+      ascending,
+      bugs: computed(() => AppState.bugs.filter(filterByStatus).sort(prioritySorter)),
+      user: computed(() => AppState.user),
+      toggleAscending() {
+        ascending.value = !ascending.value
+      }
     }
   }
 }

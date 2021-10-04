@@ -1,13 +1,12 @@
 <template>
-  <form @submit.prevent="createBug()">
+  <form @submit.prevent="editBug()">
     <div class="form-group">
       <label for="title">
         <input type="text"
                for="title"
                class="form-control bg-light"
-               placeholder="Bug Title"
+               :placeholder="bug?.title"
                v-model="editable.title"
-               required
         >
       </label>
     </div>
@@ -17,9 +16,8 @@
                   for="description"
                   v-model="editable.description"
                   class="form-control mt-2 bg-light"
-                  placeholder="Bug Description"
+                  :placeholder="bug?.description"
                   aria-label="With textarea"
-                  required
         ></textarea>
       </label>
     </div>
@@ -29,11 +27,10 @@
         <input type="number"
                for="priority"
                class="form-control bg-light"
-               placeholder="0"
+               :placeholder="bug?.priority"
                v-model="editable.priority"
                min="1"
                max="5"
-               required
         >
       </label>
     </div>
@@ -47,22 +44,30 @@
 
 <script>
 import { ref } from '@vue/reactivity'
+import { useRoute } from 'vue-router'
 import { bugsService } from '../services/BugsService'
+import Pop from '../utils/Pop'
 import { Modal } from 'bootstrap'
-import { router } from '../router'
 export default {
+  props: {
+    bug: {
+      type: Object,
+      required: true
+    }
+  },
   setup() {
+    const route = useRoute()
     const editable = ref({})
     return {
       editable,
-      async createBug() {
-        const bugId = await bugsService.createBug(editable.value)
-        const modal = Modal.getInstance(document.getElementById('bug-form'))
-        modal.hide()
-        router.push({
-          name: 'Bug',
-          params: { bugId: bugId }
-        })
+      async editBug() {
+        try {
+          await bugsService.editBug(route.params.bugId, editable.value)
+          const modal = Modal.getInstance(document.getElementById('edit-form'))
+          modal.hide()
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
       }
     }
   }

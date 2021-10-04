@@ -20,5 +20,9 @@ class TrackedBugsService {
     logger.log('getTrackedBugs res', res.data)
     AppState.trackedBugs = res.data
   }
+
+  async untrackBug(trackedBugId) {
+    const res = await api.delete('/api/trackedbugs/' + trackedBugId)
+  }
 }
 export const trackedBugsService = new TrackedBugsService()

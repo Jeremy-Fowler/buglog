@@ -17,9 +17,8 @@ class TrackedBugsService {
   }
 
   async createTrackedBug(userId, trackedBugData) {
-    // eslint-disable-next-line prefer-const
-    let users = await this.getUsersTrackingBug(trackedBugData.bugId)
-    if (users.filter(u => u.accountId === userId).length > 0) {
+    const users = await this.getUsersTrackingBug(trackedBugData.bugId)
+    if (users.filter(u => u.accountId.toString() === userId).length > 0) {
       throw new BadRequest("you can't follow this twice")
     }
     const trackedBug = await dbContext.TrackedBugs.create(trackedBugData)
@@ -28,8 +27,8 @@ class TrackedBugsService {
     return trackedBug
   }
 
-  async getUsersTrackingBug(bugId) {
-    const users = await dbContext.TrackedBugs.find({ bugId: bugId }).populate('tracker').populate('bug')
+  async getUsersTrackingBug(bId) {
+    const users = await dbContext.TrackedBugs.find({ bugId: bId }).populate('tracker').populate('bug')
     return users
   }
 }
