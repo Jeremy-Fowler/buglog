@@ -18,7 +18,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col" class="selectable text-primary" @click="toggleAscending">
+                <th scope="col" title="Sort by priority" class="selectable text-primary" @click="toggleAscending">
                   Priority
                 </th>
                 <th scope="col">
@@ -27,10 +27,10 @@
                 <th id="disappear" scope="col">
                   Reported By
                 </th>
-                <th scope="col">
+                <th scope="col" title="Sort by latest bugs" class="selectable text-primary" @click="ascending = ''">
                   Last Updated
                 </th>
-                <th scope="col" class="selectable text-primary" @click="statusFilter = !statusFilter" title="Show only closed">
+                <th scope="col" class="selectable text-primary" @click="statusFilter = !statusFilter" title="Show only open bugs">
                   Status
                 </th>
               </tr>
@@ -71,7 +71,7 @@ export default {
   name: 'Home',
   setup() {
     const statusFilter = ref(false)
-    const ascending = ref(false)
+    const ascending = ref('')
 
     onMounted(async() => {
       try {
@@ -82,7 +82,9 @@ export default {
     })
 
     function prioritySorter(x, y) {
-      if (ascending.value) {
+      if (ascending.value === '') {
+        return ''
+      } else if (ascending.value) {
         return x.priority - y.priority
       }
       return y.priority - x.priority
