@@ -32,10 +32,12 @@ export default {
   setup(props) {
     return {
       async removeNote() {
-        try {
-          await notesService.removeNote(props.note.id)
-        } catch (error) {
-          Pop.toast(error, 'error')
+        if (await Pop.confirm()) {
+          try {
+            await notesService.removeNote(props.note.id)
+          } catch (error) {
+            Pop.toast(error, 'error')
+          }
         }
       },
       account: computed(() => AppState.account)

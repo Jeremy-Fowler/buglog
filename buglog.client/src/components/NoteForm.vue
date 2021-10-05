@@ -1,11 +1,11 @@
 <template>
   <form @submit.prevent="createNote()">
     <div class="input-group">
-      <label for="description">
+      <label for="body">
         <textarea type="text"
-                  for="description"
+                  for="body"
                   class="form-control mt-2 bg-light"
-                  placeholder="Bug Description"
+                  placeholder="Note goes here"
                   aria-label="With textarea"
                   v-model="editable.body"
                   required

@@ -23,6 +23,8 @@ class TrackedBugsService {
 
   async untrackBug(trackedBugId) {
     const res = await api.delete('/api/trackedbugs/' + trackedBugId)
+    logger.log(res.data)
+    AppState.users = AppState.users.filter(u => u.id !== trackedBugId)
   }
 }
 export const trackedBugsService = new TrackedBugsService()

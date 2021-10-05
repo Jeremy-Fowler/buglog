@@ -37,10 +37,8 @@
             <div class="col">
               <p>{{ bug?.description }}</p>
             </div>
-            <div class="col">
-              <span>
-                <User v-for="u in users" :key="u.id" :user="u" />
-              </span>
+            <div class="col d-flex">
+              <User v-for="u in users" :key="u.id" :user="u" />
               <span>
                 <button @click.prevent="trackBug()" title="Track This Bug" class="btn mx-3 fs-3 mdi mdi-magnify-plus btn-success"></button>
               </span>
