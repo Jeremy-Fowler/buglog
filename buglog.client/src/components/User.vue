@@ -1,9 +1,9 @@
 <template>
   <div class="card">
-    <div class="on-hover position-absolute" style="left: 0rem; top: 0rem" v-if="account.id == user.tracker.id">
+    <div class="on-hover position-absolute" title="Untrack Bug" style="left: 0rem; top: 0rem" v-if="account.id == user.tracker.id">
       <i class="mdi mdi-close text-danger fs-1 selectable" @click="untrackBug()"></i>
     </div>
-    <img class="" :src="user.tracker.picture" style="width: 6vh" alt="">
+    <img class="" :src="user.tracker.picture" style="width: 9vh" alt="">
   </div>
 </template>
 

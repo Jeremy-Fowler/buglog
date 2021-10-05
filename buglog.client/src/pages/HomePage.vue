@@ -71,7 +71,7 @@ export default {
   name: 'Home',
   setup() {
     const statusFilter = ref(false)
-    const ascending = ref(true)
+    const ascending = ref(false)
 
     onMounted(async() => {
       try {

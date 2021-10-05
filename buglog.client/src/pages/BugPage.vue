@@ -12,7 +12,7 @@
         </h1>
         <div class="row">
           <div class="card border-dark">
-            <div class="col justify-content-around d-flex">
+            <h2 class="col justify-content-around d-flex my-3">
               <span><img :src="bug?.creator.picture" alt=""></span>
               <span>
                 <div>Reported By</div>
@@ -22,22 +22,28 @@
                 <div>Priority</div>
                 <div>{{ bug?.priority }}</div>
               </span>
-              <span>
+              <span v-if="bug.closedDate === null">
                 <div>Last Updated</div>
                 <div>{{ new Date(bug?.updatedAt).toLocaleDateString('en-US') }}</div>
               </span>
+              <span v-else>
+                <div>Closed At</div>
+                <div>{{ new Date(bug?.closedDate).toLocaleDateString('en-US') }}</div>
+              </span>
               <span>
                 <div>Bug Status</div>
-                <div v-if="bug?.closed === true">Closed</div>
-                <div v-else>Open</div>
+                <div v-if="bug?.closed === true"><i class="mdi text-success mdi-checkbox-blank-circle-outline"></i>Closed</div>
+                <div v-else><i class="mdi text-danger mdi-checkbox-blank-circle-outline"></i>Open</div>
                 <button @click.prevent="closeBug()" v-if="bug?.creatorId === account.id && bug?.closed === false" class="btn btn-success">Close Bug</button>
                 <button @click.prevent="closeBug()" v-if="bug?.creatorId === account.id && bug?.closed === true" class="btn btn-success">Open Bug</button>
               </span>
-            </div>
+            </h2>
             <div class="col">
-              <p>{{ bug?.description }}</p>
+              <h3 class="m-5">
+                {{ bug?.description }}
+              </h3>
             </div>
-            <div class="col d-flex">
+            <div class="col d-flex mx-5 mb-1">
               <User v-for="u in users" :key="u.id" :user="u" />
               <span>
                 <button @click.prevent="trackBug()" title="Track This Bug" class="btn m-3 fs-3 mdi mdi-magnify-plus btn-success"></button>
