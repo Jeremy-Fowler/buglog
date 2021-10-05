@@ -7,7 +7,7 @@
             {{ bug?.title }}
           </span>
           <span>
-            <button v-if="bug?.creatorId === account.id && bug?.closed === false" class="btn fs-3 btn-warning mdi mdi-pencil" data-bs-toggle="modal" data-bs-target="#edit-form"></button>
+            <button v-if="bug?.creatorId === account.id && bug?.closed === false" class="btn m-3 fs-3 btn-warning mdi mdi-pencil" data-bs-toggle="modal" data-bs-target="#edit-form"></button>
           </span>
         </h1>
         <div class="row">
@@ -40,7 +40,7 @@
             <div class="col d-flex">
               <User v-for="u in users" :key="u.id" :user="u" />
               <span>
-                <button @click.prevent="trackBug()" title="Track This Bug" class="btn mx-3 fs-3 mdi mdi-magnify-plus btn-success"></button>
+                <button @click.prevent="trackBug()" title="Track This Bug" class="btn m-3 fs-3 mdi mdi-magnify-plus btn-success"></button>
               </span>
             </div>
           </div>
@@ -57,7 +57,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <div class="card border-dark p-3">
+            <div v-if="notes.length > 0" class="card border-dark p-3">
               <Note v-for="n in notes" :key="n.id" :note="n" />
             </div>
           </div>

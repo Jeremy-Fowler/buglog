@@ -18,19 +18,19 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col" class="selectable" @click="toggleAscending">
+                <th scope="col" class="selectable text-primary" @click="toggleAscending">
                   Priority
                 </th>
                 <th scope="col">
                   Title
                 </th>
-                <th scope="col">
+                <th id="disappear" scope="col">
                   Reported By
                 </th>
                 <th scope="col">
                   Last Updated
                 </th>
-                <th scope="col" class="selectable" @click="statusFilter = !statusFilter" title="Show only closed">
+                <th scope="col" class="selectable text-primary" @click="statusFilter = !statusFilter" title="Show only closed">
                   Status
                 </th>
               </tr>
@@ -124,5 +124,10 @@ export default {
       object-position: center;
     }
   }
+}
+@media(max-width: 767px){
+    #disappear{
+        display: none;
+    }
 }
 </style>
